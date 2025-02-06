@@ -14,6 +14,7 @@ public class CharacterController : MonoBehaviour
         InputHandler.Instance.OnWalk += HandleWalk;
         InputHandler.Instance.OnRun += HandleRun;
         InputHandler.Instance.OnDodge += HandleDodge;
+        InputHandler.Instance.OnAttack += HandleAttack;
     }
     private void OnDisable()
     {
@@ -21,6 +22,7 @@ public class CharacterController : MonoBehaviour
         InputHandler.Instance.OnWalk -= HandleWalk;
         InputHandler.Instance.OnRun -= HandleRun;
         InputHandler.Instance.OnDodge -= HandleDodge;
+        InputHandler.Instance.OnAttack -= HandleAttack;
     }
 
 
@@ -28,12 +30,13 @@ public class CharacterController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        ChangeState(new CharacterWalkState(this));
+        ChangeState(new CharacterIdleState(this));
     }
     private void FixedUpdate()
     {
         state.OnUpdate();
     }
+
     #region State
     private void HandleIdle()
     {
@@ -54,7 +57,10 @@ public class CharacterController : MonoBehaviour
     {
         ChangeState(new CharacterDodgeState(this));
     }
-    
+    private void HandleAttack()
+    {
+        ChangeState(new CharacterAttackState(this));
+    }
 
     void ChangeState(ICharacterState state)
     {

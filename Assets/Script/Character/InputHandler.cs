@@ -30,28 +30,31 @@ public class InputHandler : MonoBehaviour
     public event Action OnWalk;
     public event Action OnRun;
     public event Action OnDodge;
+    public event Action OnAttack;
 
 
     public float HorizontalInput { get; private set; }
     public float VerticalInput { get; private set; }
     public bool IsDodge { get; private set; }
+    public bool IsAttack { get; private set; }
 
 
-    public int DodgeCooldown = 3;
+    public float DodgeCooldown = 1;
+    public float AttackCooldown = 1;
 
     public void Update()
     {
         HorizontalInput = Input.GetAxis("Horizontal");
         VerticalInput = Input.GetAxis("Vertical");
-
         StartCoroutine(DodgeInput());
+        StartCoroutine(AttackInput());
         WalkOrRunInput();
     }
 
 
     private IEnumerator DodgeInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !IsAttack)
         {
             IsDodge = true;
             OnDodge?.Invoke();
@@ -59,6 +62,17 @@ public class InputHandler : MonoBehaviour
             yield return new WaitForSeconds(DodgeCooldown);
 
             IsDodge = false;
+        }
+    }
+    private IEnumerator AttackInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !IsDodge)
+        {
+            IsAttack = true;
+            OnAttack?.Invoke();
+            yield return new WaitForSeconds(AttackCooldown);
+            IsAttack = false;
+
         }
     }
 
