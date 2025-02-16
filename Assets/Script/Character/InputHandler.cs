@@ -78,7 +78,6 @@ public class InputHandler : MonoBehaviour
 
     private void WalkOrRunInput()
     {
-
         if(HorizontalInput != 0 || VerticalInput != 0 )
         {
             if (Input.GetKey(KeyCode.LeftShift))

@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 
 public class CharacterController : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public Animator animator;
     public ICharacterState state;
+
 
     private void OnEnable()
     {
@@ -30,7 +33,8 @@ public class CharacterController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        ChangeState(new CharacterIdleState(this));
+        animator = GetComponent<Animator>();
+        ChangeState(CharacterIdleState.Instance);
     }
     private void FixedUpdate()
     {
@@ -40,36 +44,37 @@ public class CharacterController : MonoBehaviour
     #region State
     private void HandleIdle()
     {
-        ChangeState(new CharacterIdleState(this));
+        ChangeState(CharacterIdleState.Instance);
     }
     
     private void HandleWalk()
     {
-        ChangeState(new CharacterWalkState(this));
+        ChangeState(CharacterWalkState.Instance);
     }
 
     private void HandleRun()
     {
-        ChangeState(new CharacterRunState(this));
+        ChangeState(CharacterRunState.Instance);
     }
 
     private void HandleDodge()
     {
-        ChangeState(new CharacterDodgeState(this));
+        ChangeState(CharacterDodgeState.Instance);
     }
     private void HandleAttack()
     {
-        ChangeState(new CharacterAttackState(this));
+        ChangeState(CharacterDodgeState.Instance);
     }
 
     void ChangeState(ICharacterState state)
     {
-        if (this.state != null)
-        {
-            state.OnExit();
-        }
+
+        if (state == this.state) { return; }
+
+        this.state?.OnExit();
+
         this.state = state;
-        state.OnEnter();
+        this.state?.OnEnter(this);
     }
     #endregion
 }

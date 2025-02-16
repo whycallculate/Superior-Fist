@@ -1,11 +1,8 @@
 using UnityEngine;
 public class CharacterDodgeState : ICharacterState
 {
-    public CharacterDodgeState(CharacterController player)
-    {
-
-    }
-    public void OnEnter()
+    public static readonly CharacterDodgeState Instance = new CharacterDodgeState();
+    public void OnEnter(CharacterController player)
     {
         Debug.Log("OnDodgeState");
     }

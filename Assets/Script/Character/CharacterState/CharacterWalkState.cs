@@ -3,22 +3,18 @@ using UnityEngine;
 
 public class CharacterWalkState : ICharacterState
 {
+    public static readonly CharacterWalkState Instance = new CharacterWalkState();
+
     private CharacterController player;
     private Rigidbody2D rb;
     private float moveSpeed = 100f;
     private float Horizontal;
     private float Vertical;
-    
 
-    public CharacterWalkState(CharacterController player)
+    public void OnEnter(CharacterController player)
     {
         this.player = player;
-        this.rb = player.rb;
-    }
-
-    public void OnEnter()
-    {
-        Debug.Log("OnWalkState");
+        rb = player.rb;
     }
 
     public void OnExit()

@@ -2,14 +2,11 @@ using UnityEngine;
 
 public class CharacterAttackState : ICharacterState
 {
+    public static readonly CharacterAttackState Instance = new CharacterAttackState();
+
     private CharacterController player;
 
-    public CharacterAttackState(CharacterController player)
-    {
-        this.player = player;
-    }
-
-    public void OnEnter()
+    public void OnEnter(CharacterController player)
     {
         Debug.Log("OnAttackState");
     }

@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class CharacterRunState : ICharacterState
 {
+
+    public static readonly CharacterRunState Instance = new CharacterRunState();
+
+
     private CharacterController player;
     private Rigidbody2D rb;
     private float moveSpeed = 150f;
     private float Horizontal;
     private float Vertical;
 
-    public CharacterRunState(CharacterController player)
+    public void OnEnter(CharacterController player)
     {
         this.player = player;
         rb = player.rb;
-    }
-    public void OnEnter()
-    {
-        Debug.Log("RunStateEnter");
     }
 
     public void OnExit()
