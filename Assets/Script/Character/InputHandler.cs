@@ -42,6 +42,11 @@ public class InputHandler : MonoBehaviour
     public float DodgeCooldown = 1;
     public float AttackCooldown = 1;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
     public void Update()
     {
         HorizontalInput = Input.GetAxis("Horizontal");
@@ -50,7 +55,7 @@ public class InputHandler : MonoBehaviour
         StartCoroutine(AttackInput());
         WalkOrRunInput();
     }
-
+    
 
     private IEnumerator DodgeInput()
     {
